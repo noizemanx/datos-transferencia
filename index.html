@@ -7,35 +7,67 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
         h2 { color: #2c3e50; }
-        .mensaje { font-size: 18px; margin-top: 20px; }
+        select, button { padding: 10px; margin-top: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
     <h2>✅ Datos Bancarios Copiados</h2>
-    <p class="mensaje">Serás redirigido a la app del banco en unos segundos...</p>
+    <p>Selecciona tu banco para abrir la app o sitio web:</p>
+
+    <select id="banco">
+        <option value="">Selecciona tu banco</option>
+        <option value="bancochile">Banco de Chile</option>
+        <option value="bci">BCI</option>
+        <option value="santander">Santander</option>
+        <option value="scotiabank">Scotiabank</option>
+        <option value="estado">Banco Estado</option>
+        <option value="itau">Itaú</option>
+        <option value="falabella">Banco Falabella</option>
+    </select>
+
+    <br>
+    <button onclick="abrirBanco()">Abrir App o Sitio Web del Banco</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Datos bancarios a copiar
-            var datosBancarios = `Banco: Falabella
-Cuenta: 19998350134
-Daniela Aravena
-RUT: 163831953
-Tipo de Cuenta: Corriente`;
+            var datosBancarios = "Banco: Falabella\nCuenta: 19998350134\nTitular: Daniela Aravena\nRUT: 16.383.195-3\nTipo de Cuenta: Cuenta Corriente";
 
-            // Copiar los datos al portapapeles
+
             navigator.clipboard.writeText(datosBancarios).then(() => {
                 alert("✅ Datos bancarios copiados al portapapeles.");
-                
-                // Esperar 3 segundos y redirigir
-                setTimeout(function() {
-                    window.location.href = "https://www.bancofalabella.cl/"; // Reemplaza con el link de tu banco
-                }, 3000);
-
             }).catch(err => {
                 alert("❌ Error al copiar. Por favor, copia manualmente.");
             });
         });
+
+        function abrirBanco() {
+            var bancoSeleccionado = document.getElementById("banco").value;
+            var enlaces = {
+                "bancochile": { app: "bancochile://transferencia", web: "https://www.bancochile.cl" },
+                "bci": { app: "bci://transferencias", web: "https://www.bci.cl" },
+                "santander": { app: "santander://pago", web: "https://www.santander.cl" },
+                "scotiabank": { app: "scotiabank://home", web: "https://www.scotiabank.cl" },
+                "estado": { app: "bancoestado://transferencias", web: "https://www.bancoestado.cl" },
+                "itau": { app: "itau://inicio", web: "https://www.itau.cl" },
+                "falabella": { app: null, web: "https://www.bancofalabella.cl" }
+            };
+
+            if (bancoSeleccionado && enlaces[bancoSeleccionado]) {
+                var enlaceApp = enlaces[bancoSeleccionado].app;
+                var enlaceWeb = enlaces[bancoSeleccionado].web;
+
+                if (enlaceApp) {
+                    window.location.href = enlaceApp;
+                    setTimeout(function() {
+                        window.location.href = enlaceWeb;
+                    }, 2000);
+                } else {
+                    window.location.href = enlaceWeb;
+                }
+            } else {
+                alert("❌ Selecciona un banco válido.");
+            }
+        }
     </script>
 </body>
 </html>
