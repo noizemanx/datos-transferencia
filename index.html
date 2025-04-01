@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copiar Datos Bancarios</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        h2 { color: #2c3e50; }
+        .mensaje { font-size: 18px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h2>✅ Datos Bancarios Copiados</h2>
+    <p class="mensaje">Serás redirigido a la app del banco en unos segundos...</p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Datos bancarios a copiar
+            var datosBancarios = `Banco: Falabella
+Cuenta: 19998350134
+Daniela Aravena
+RUT: 163831953
+Tipo de Cuenta: Corriente`;
+
+            // Copiar los datos al portapapeles
+            navigator.clipboard.writeText(datosBancarios).then(() => {
+                alert("✅ Datos bancarios copiados al portapapeles.");
+                
+                // Esperar 3 segundos y redirigir
+                setTimeout(function() {
+                    window.location.href = "https://www.bancofalabella.cl/"; // Reemplaza con el link de tu banco
+                }, 3000);
+
+            }).catch(err => {
+                alert("❌ Error al copiar. Por favor, copia manualmente.");
+            });
+        });
+    </script>
+</body>
+</html>
